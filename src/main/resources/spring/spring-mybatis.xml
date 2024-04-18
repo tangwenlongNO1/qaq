@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- 加载单独的properties文件 -->
+	<context:property-placeholder location="classpath:db.properties"/>
+	<!-- 扫描所有的注解 -->
+	<context:component-scan base-package="com.zenq.ssm">
+		<!-- 扫描除了Controller之外其他的注解 -->
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan>
+	
+	<!-- 1.配置数据源 -->
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+		<property name="driverClassName" value="${db.driver}" />
+		<property name="url" value="${db.url}" />
+		<property name="username" value="${db.username}" />
+		<property name="password" value="${db.password}" />
+	</bean>
+	<!-- 2.配置SqlSessionFactoryBean -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!-- 指定数据源 -->
+		<property name="dataSource" ref="dataSource" />
+		<!-- 指定MyBatis配置文件路径 -->
+		<property name="configLocation" value="classpath:mybatis/mybatis-config.xml" />
+		<!-- 指定映射器配置文件的路径 -->
+		<property name="mapperLocations">
+			<list>
+				<value>classpath:mybatis/mapper/*.xml</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 3.配置其他扫描配置 将mybatis接口的实现加入到ioc容器中-->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+    	<!-- 扫描映射器所在的包 -->
+		<property name="basePackage" value="com.zenq.ssm.mapper"/>
+	</bean>
+</beans>
