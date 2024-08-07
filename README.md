@@ -1,5 +1,5 @@
 # qaq
-Java web程序 - 基于ssm框架 <img src="https://github.com/SAWARATSUKI/ServiceLogos/blob/main/Java/Java.png"  width="60" />
+Java web程序 - 基于ssm框架 <img src="https://github.com/SAWARATSUKI/KawaiiLogos/blob/main/IntelliJ%20IDEA/IntelliJ%20IDEA.png"  width="60" />
 - 注册
 - 登录
 - 修改密码
